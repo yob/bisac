@@ -72,6 +72,7 @@ spec = Gem::Specification.new do |spec|
 	spec.extra_rdoc_files = %w{README COPYING LICENSE}
 	spec.rdoc_options << '--title' << 'bisac Documentation' <<
 	                     '--main'  << 'README' << '-q'
+  spec.add_dependency('rbook-isbn', '>= 1.0')
   spec.author = "James Healy"
 	spec.email = "jimmy@deefa.com"
 	spec.rubyforge_project = "rbook"
