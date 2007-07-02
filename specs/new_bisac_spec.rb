@@ -39,29 +39,29 @@ context "A new bisac object" do
     bisac << @valid_item2
 
     bisac.to_s.split("\n").each do |line|
-      line.length.should_eql(259)
+      line.length.should eql(259)
     end
   end
 
   specify "Should load a valid BISAC file from disk correctly" do
     msg = RBook::Bisac::Message.load(File.dirname(__FILE__) + "/data/valid_bisac.txt")
-    msg.company.should_eql("SAND")
-    msg.san.should_eql("9012982")
-    msg.batch.should_eql("000001")
-    msg.code.should_eql("0")
-    msg.products.size.should_eql(212)
+    msg.company.should eql("SAND")
+    msg.san.should eql("9012982")
+    msg.batch.should eql("000001")
+    msg.code.should eql("0")
+    msg.products.size.should eql(212)
 
     product = msg.products[0]
-    product.isbn.should_eql("0715200615")
-    product.title.should_eql("GODS YOUNG CHURCH PB")
-    product.author.should_eql("Barclay, W")
-    product.price.should_eql("2272")
-    product.publisher.should_eql("SAND")
-    product.imprint.should_eql("STANP")
-    product.volumes.should_eql("")
-    product.volume.should_eql("000")
-    product.edition.should_eql("")
-    product.binding.should_eql("")
+    product.isbn.should eql("0715200615")
+    product.title.should eql("GODS YOUNG CHURCH PB")
+    product.author.should eql("Barclay, W")
+    product.price.should eql("2272")
+    product.publisher.should eql("SAND")
+    product.imprint.should eql("STANP")
+    product.volumes.should eql("")
+    product.volume.should eql("000")
+    product.edition.should eql("")
+    product.binding.should eql("")
 
   end
 
