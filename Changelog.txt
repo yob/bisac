@@ -1,0 +1,8 @@
+v0.6 (10th December, 2007)
+- Added support for files that contain multiple POs.
+  - This required a method to be deprecated. It still works for now, but a
+    warning is printed to stderr
+- Added support for the non-standard Pacstream extension that adds an ISBN13 field
+
+v0.5 (3rd July, 2007)
+- Initial Release

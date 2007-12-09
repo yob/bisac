@@ -7,6 +7,7 @@ context "A new bisac purchase order line item object" do
 
   setup do
     @valid_row = "4000003 14976       Y000000000102978513220000100000000000000000000550000000"
+    @valid_isbn13_row = "4000003 14627       Y000000000103855198500000600000000000000000000400000000     9780385519854"
     @invalid_row_nil = nil
     @invalid_row_num = 23
   end
@@ -22,6 +23,13 @@ context "A new bisac purchase order line item object" do
     item.qty.should eql(1)
     item.catalogue_code.should eql("0")
     item.price.should eql(0)
+  end
+
+  specify "Should prefer the ISBN13 over ISBN10 when available" do
+    item = RBook::Bisac::POLineItem.load_from_string(@valid_isbn13_row)
+    item.should be_a_kind_of(RBook::Bisac::POLineItem)
+
+    item.isbn.should eql("9780385519854")
   end
 
   specify "Should raise an appropriate exception when an invalid file is loaded" do

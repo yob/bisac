@@ -22,7 +22,12 @@ module RBook
         item.sequence_number = data[2,5].to_i
         item.po_number = data[7,13].strip
         item.line_item_number = data[21,10].strip
-        item.isbn = data[31,10].strip
+
+        # prefer the 13 digit ISBN if it exists (it's a non-standard, Pacstream extension)
+        # fallback to the ISBN10
+        item.isbn = data[80,13]
+        item.isbn ||= data[31,10]
+        item.isbn.strip!
         item.qty = data[41,5].to_i
         item.catalogue_code = data[46,1].strip
         item.price = BigDecimal.new(data[47,6])
