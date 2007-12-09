@@ -7,9 +7,27 @@ context "A new bisac purchase order object" do
 
   setup do
     @valid_file = File.dirname(__FILE__) + "/data/bisac_po.txt"
+    @valid_multi_file = File.dirname(__FILE__) + "/data/bisac_multi_po.txt"
     @invalid_file_no_header = File.dirname(__FILE__) + "/data/bisac_po_no_header.txt"
     @invalid_file_no_footer = File.dirname(__FILE__) + "/data/bisac_po_no_footer.txt"
     @invalid_file_onix = File.dirname(__FILE__) + "/data/single_product.xml"
+  end
+
+  specify "Should load multiple POs from a single file correctly" do
+    pos = []
+    RBook::Bisac::PO.parse_file(@valid_multi_file) { |po| pos << po }
+    
+    pos.size.should eql(2)
+
+    pos[0].should be_a_kind_of(RBook::Bisac::PO)
+    pos[0].items.size.should eql(1)
+    pos[0].source_name.should eql(".Pauline Book")
+    pos[0].po_number.should eql("13349")
+
+    pos[1].should be_a_kind_of(RBook::Bisac::PO)
+    pos[1].items.size.should eql(10)
+    pos[1].source_name.should eql(".Pauline Book")
+    pos[1].po_number.should eql("13366")
   end
 
   specify "Should load a valid BISAC PO file from disk correctly" do
@@ -59,8 +77,8 @@ context "A new bisac purchase order object" do
   end
 
   specify "Should raise an appropriate exception when an invalid file is loaded" do
-    lambda { msg = RBook::Bisac::PO.load_from_file(@invalid_file_no_header) }.should raise_error(RBook::InvalidFileError)
-    lambda { msg = RBook::Bisac::PO.load_from_file(@invalid_file_no_footer) }.should raise_error(RBook::InvalidFileError)
-    lambda { msg = RBook::Bisac::PO.load_from_file(@invalid_file_onix) }.should raise_error(RBook::InvalidFileError)
+    lambda { msg = RBook::Bisac::PO.parse_file(@invalid_file_no_header) }.should raise_error(RBook::InvalidFileError)
+    lambda { msg = RBook::Bisac::PO.parse_file(@invalid_file_no_footer) }.should raise_error(RBook::InvalidFileError)
+    lambda { msg = RBook::Bisac::PO.parse_file(@invalid_file_onix) }.should raise_error(RBook::InvalidFileError)
   end
 end

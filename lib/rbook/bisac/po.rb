@@ -23,12 +23,32 @@ module RBook
       # reads a bisac text file into memory. input should be a string 
       # that specifies the file path
       def self.load_from_file(input)
+        $stderr.puts "WARNING: RBook::Bisac::PO.load_from_file is deprecated. It only returns the first PO in the file. use parse_file instead."
+        self.parse_file(input) { |msg| return msg }
+        return nil
+      end
+
+      # return all POs from a BISAC file
+      def self.parse_file(input, &block)
+        raise ArgumentError, 'no file provided' if input.nil?
         raise RBook::InvalidFileError, 'Invalid file' unless File.exist?(input)
         data = []
-        File.open(input) do |f|
-          f.each_line { |l| data << l }
+        File.open(input, "r") do |f|
+          f.each_line do |l| 
+            data << l
+
+            # yield each message found in the file. A line starting with
+            # 90 is the footer to a PO
+            if data.last[0,2] == "90"
+              yield self.build_message(data)
+              data = []
+            end
+          end
         end
-        return self.build_message(data)
+
+        # if we've got to the end of the file, and haven't hit a footer line yet, the file
+        # is probably malformed. Call build_message anyway, and let it detect any errors
+        yield self.build_message(data) if data.size > 0
       end
 
       # creates a RBook::Bisac::PO object from a string. Input should
