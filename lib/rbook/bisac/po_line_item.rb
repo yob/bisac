@@ -16,6 +16,7 @@ module RBook
       # refer to the bisac spec for the expected format of the string
       def self.load_from_string(data)
         raise RBook::InvalidArgumentError, 'data must be a string' unless data.kind_of? String
+        data.strip!
 
         item = self.new
 

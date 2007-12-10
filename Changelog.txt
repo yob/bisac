@@ -1,3 +1,7 @@
+v0.6.1 (10th December, 2007)
+- Fixed a silly bug (and added a spec) that prevented 10 digit ISBNs from being 
+  recognised properly.
+
 v0.6 (10th December, 2007)
 - Added support for files that contain multiple POs.
   - This required a method to be deprecated. It still works for now, but a
