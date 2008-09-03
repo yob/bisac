@@ -1,7 +1,6 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
 
 require 'rbook/bisac'
-include RBook
 
 context "A new bisac purchase order line item object" do
 
@@ -14,8 +13,8 @@ context "A new bisac purchase order line item object" do
   end
   
   specify "Should load a line from a bisac po file correctly" do
-    item = RBook::Bisac::POLineItem.load_from_string(@valid_row)
-    item.should be_a_kind_of(RBook::Bisac::POLineItem)
+    item = Bisac::POLineItem.load_from_string(@valid_row)
+    item.should be_a_kind_of(Bisac::POLineItem)
 
     item.sequence_number.should eql(3)
     item.po_number.should eql("14976")
@@ -27,8 +26,8 @@ context "A new bisac purchase order line item object" do
   end
 
   specify "Should load a line from a bisac po file correctly, even if they they have whitepsace padding" do
-    item = RBook::Bisac::POLineItem.load_from_string(@valid_row_two)
-    item.should be_a_kind_of(RBook::Bisac::POLineItem)
+    item = Bisac::POLineItem.load_from_string(@valid_row_two)
+    item.should be_a_kind_of(Bisac::POLineItem)
 
     item.sequence_number.should eql(33)
     item.po_number.should eql("13424")
@@ -40,14 +39,14 @@ context "A new bisac purchase order line item object" do
   end
 
   specify "Should prefer the ISBN13 over ISBN10 when available" do
-    item = RBook::Bisac::POLineItem.load_from_string(@valid_isbn13_row)
-    item.should be_a_kind_of(RBook::Bisac::POLineItem)
+    item = Bisac::POLineItem.load_from_string(@valid_isbn13_row)
+    item.should be_a_kind_of(Bisac::POLineItem)
 
     item.isbn.should eql("9780385519854")
   end
 
   specify "Should raise an appropriate exception when an invalid file is loaded" do
-    lambda { item = RBook::Bisac::POLineItem.load_from_string(@invalid_row_nil) }.should raise_error(RBook::InvalidArgumentError)
-    lambda { item = RBook::Bisac::POLineItem.load_from_string(@invalid_row_num) }.should raise_error(RBook::InvalidArgumentError)
+    lambda { Bisac::POLineItem.load_from_string(@invalid_row_nil) }.should raise_error(ArgumentError)
+    lambda { Bisac::POLineItem.load_from_string(@invalid_row_num) }.should raise_error(ArgumentError)
   end
 end

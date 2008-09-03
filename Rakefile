@@ -6,8 +6,8 @@ require 'rake/testtask'
 require "rake/gempackagetask"
 require 'spec/rake/spectask'
 
-PKG_VERSION = "0.6.1"
-PKG_NAME = "rbook-bisac"
+PKG_VERSION = "0.7"
+PKG_NAME = "bisac"
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 RUBYFORGE_PROJECT = 'rbook'
 RUBYFORGE_USER = 'yob'
