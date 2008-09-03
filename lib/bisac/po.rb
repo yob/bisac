@@ -17,6 +17,11 @@ module Bisac
     # creates a new RBook::Bisac::PO object
     def initialize
       @items = []
+
+      # default values
+      @cancellation_date = "000000"
+      @do_not_ship_before = "000000"
+      @backorder = true
     end
 
     # reads a bisac text file into memory. input should be a string 
@@ -78,7 +83,77 @@ module Bisac
       return self.build_message(data)
     end
 
+    def total_qty
+      @items.collect { |i| i.qty }.inject { |sum, x| sum ? sum+x : x}
+    end
+
+    def to_s
+
+      # first header
+      lines = [""]
+      lines.last << "00" # line type
+      lines.last << "00000"  # line counter
+      lines.last << pad_trunc(@source_san, 7)
+      lines.last << pad_trunc(@source_suffix, 5)
+      lines.last << pad_trunc(@source_name, 13)
+      lines.last << pad_trunc(@date, 6)
+      lines.last << pad_trunc(@filename, 22)
+      lines.last << pad_trunc(@format_version, 3)
+      lines.last << pad_trunc(@destination_san, 7)
+      lines.last << pad_trunc(@destination_suffix, 5)
+      lines.last << pad_trunc("", 5) # something
+
+      # second header
+      lines << ""
+      lines.last << "10"
+      lines.last << "00001"  # line counter
+      lines.last << " "
+      lines.last << @po_number.to_s.ljust(11, " ")
+      lines.last << " " # TODO
+      lines.last << pad_trunc(@source_san, 7)
+      lines.last << pad_trunc("",5) # TODO
+      lines.last << pad_trunc(@destination_san, 7)
+      lines.last << pad_trunc("",5) # TODO
+      lines.last << pad_trunc(@date, 6)
+      lines.last << pad_trunc(@cancellation_date,6)
+      lines.last << yes_no(@backorder)
+      lines.last << pad_trunc(@do_not_exceed_action,1)
+      lines.last << pad_trunc(@do_not_exceed_amount,7)
+      lines.last << pad_trunc(@invoice_copies,2)
+      lines.last << yes_no(@special_instructions)
+      lines.last << pad_trunc("",5) # TODO
+      lines.last << pad_trunc(@do_not_ship_before,6)
+
+      @items.each do |item|
+        lines += item.to_s.split("\n")
+      end
+
+      lines << ""
+      lines.last << "90"
+      lines.last << lines.size.to_s.rjust(5,"0")  # line counter
+      lines.last << " "
+      lines.last << @po_number.to_s.ljust(11, " ")
+      lines.last << " 00110" # TODO
+      lines.last << @items.size.to_s.rjust(10,"0")
+      lines.last << total_qty.to_s.rjust(10,"0")
+
+      lines.join("\n")
+    end
+
     private
+
+    def yes_no(bool)
+      bool ? "Y" : "N"
+    end
+
+    def pad_trunc(str, len, pad = " ")
+      str = str.to_s
+      if str.size > len
+        str[0,len]
+      else
+        str.ljust(len, pad)
+      end
+    end
 
     def self.build_message(data)
       raise Bisac::InvalidFileError, 'File appears to be too short' unless data.size >= 3
@@ -95,7 +170,7 @@ module Bisac
           msg.source_suffix = line[14,5].strip
           msg.source_name = line[19,13].strip
           msg.date = line[32,6].strip
-          msg.filename = line[38,20].strip
+          msg.filename = line[38,22].strip
           msg.format_version = line[60,3].strip
           msg.destination_san = line[63,7].strip
           msg.destination_suffix = line[70,5].strip

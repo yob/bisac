@@ -34,5 +34,51 @@ module Bisac
       return item
     end
 
+    def to_s
+      lines = ["","",""]
+      lines[0] << "40"
+      lines[0] << @sequence_number.to_s.rjust(5,"0")
+      lines[0] << " "
+      lines[0] << @po_number.to_s.ljust(11," ")
+      lines[0] << " " # TODO
+      lines[0] << "Y" # TODO
+      lines[0] << @line_item_number.to_s.rjust(10,"0")
+      lines[0] << pad_trunc(@isbn, 10)
+      lines[0] << @qty.to_s.rjust(5, "0")
+      lines[0] << "00000000000000000000000000000" # TODO
+
+      lines << ""
+      lines[1] << "41"
+      lines[1] << (@sequence_number + 1).to_s.rjust(5,"0")
+      lines[1] << " "
+      lines[1] << @po_number.to_s.ljust(11," ")
+      lines[1] << "    "
+      lines[1] << pad_trunc(@title, 30)
+
+      lines << ""
+      lines[2] << "42"
+      lines[2] << (@sequence_number + 2).to_s.rjust(5,"0")
+      lines[2] << " "
+      lines[2] << @po_number.to_s.ljust(11," ")
+      lines[2] << "                  " # TODO
+      lines[2] << pad_trunc(@author, 30)
+
+      lines.join("\n")
+    end
+
+    private
+
+    def yes_no(bool)
+      bool ? "Y" : "N"
+    end
+
+    def pad_trunc(str, len, pad = " ")
+      str = str.to_s
+      if str.size > len
+        str[0,len]
+      else
+        str.ljust(len, pad)
+      end
+    end
   end
 end
