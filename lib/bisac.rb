@@ -27,5 +27,5 @@ require 'rbook/isbn'
 #  msg << item
 #  puts msg.to_s
 module Bisac
-
+  class InvalidFileError < RuntimeError; end
 end

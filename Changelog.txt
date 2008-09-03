@@ -1,3 +1,9 @@
+v0.7.0 (XXX)
+- Moved everything out of the RBook namespace
+  - Now just in Bisac::
+- Deprecated Bisac::PO#load_from_string
+  - Use Bisac::PO#parse_string
+
 v0.6.1 (10th December, 2007)
 - Fixed a silly bug (and added a spec) that prevented 10 digit ISBNs from being 
   recognised properly.

@@ -30,7 +30,7 @@ module Bisac
     # return all POs from a BISAC file
     def self.parse_file(input, &block)
       raise ArgumentError, 'no file provided' if input.nil?
-      raise RBook::InvalidFileError, 'Invalid file' unless File.exist?(input)
+      raise ArgumentError, 'Invalid file' unless File.file?(input)
       data = []
       File.open(input, "r") do |f|
         f.each_line do |l| 
@@ -50,9 +50,30 @@ module Bisac
       yield self.build_message(data) if data.size > 0
     end
 
+    # return all POs from a BISAC string
+    def self.parse_string(input, &block)
+      raise ArgumentError, 'no data provided' if input.nil?
+      data = []
+      input.split("\n").each do |l| 
+        data << l
+
+        # yield each message found in the string. A line starting with
+        # 90 is the footer to a PO
+        if data.last[0,2] == "90"
+          yield self.build_message(data)
+          data = []
+        end
+      end
+
+      # if we've got to the end of the file, and haven't hit a footer line yet, the file
+      # is probably malformed. Call build_message anyway, and let it detect any errors
+      yield self.build_message(data) if data.size > 0
+    end
+
     # creates a RBook::Bisac::PO object from a string. Input should
     # be a complete bisac file as a string
     def self.load_from_string(input)
+      $stderr.puts "WARNING: Bisac::PO.load_from_string is deprecated. It only returns the first PO in the string. use parse_string instead."
       data = input.split("\n")
       return self.build_message(data)
     end
@@ -60,9 +81,9 @@ module Bisac
     private
 
     def self.build_message(data)
-      raise RBook::InvalidFileError, 'File appears to be too short' unless data.size >= 3
-      raise RBook::InvalidFileError, 'Missing header information' unless data[0][0,2].eql?("00")
-      raise RBook::InvalidFileError, 'Missing footer information' unless data[-1][0,2].eql?("90")
+      raise Bisac::InvalidFileError, 'File appears to be too short' unless data.size >= 3
+      raise Bisac::InvalidFileError, 'Missing header information' unless data[0][0,2].eql?("00")
+      raise Bisac::InvalidFileError, 'Missing footer information' unless data[-1][0,2].eql?("90")
 
       msg = PO.new
 
@@ -89,7 +110,7 @@ module Bisac
           msg.do_not_ship_before = line[73,6].strip
         when "40" # line item
           # load each lineitem into the message
-          item = RBook::Bisac::POLineItem.load_from_string(line)
+          item = Bisac::POLineItem.load_from_string(line)
           msg.items << item
         when "41"
           if line.length > 21

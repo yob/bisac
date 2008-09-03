@@ -54,31 +54,32 @@ context "A new bisac purchase order object" do
   end
 
   specify "Should load a valid BISAC PO file from a string correctly" do
-    msg = Bisac::PO.load_from_string(File.read(@valid_file))
-    msg.should be_a_kind_of(Bisac::PO)
-    msg.items.size.should eql(36)
+    Bisac::PO.parse_string(File.read(@valid_file)) do |msg|
+      msg.should be_a_kind_of(Bisac::PO)
+      msg.items.size.should eql(36)
 
-    msg.source_san.should eql("9013725")
-    msg.source_suffix.should eql("")
-    msg.source_name.should eql("Rainbow Book")
-    msg.date.should eql("061112")
-    msg.filename.should eql("INTERNET.BSC")
-    msg.format_version.should eql("F03")
-    msg.destination_san.should eql("9021000")
-    msg.destination_suffix.should eql("")
-    msg.po_number.should eql("14976")
-    msg.cancellation_date.should eql("000000")
-    msg.backorder.should be_true
-    msg.do_not_exceed_action.should eql("")
-    msg.do_not_exceed_amount.should eql("0000000")
-    msg.invoice_copies.should eql("01")
-    msg.special_instructions.should be_false
-    msg.do_not_ship_before.should eql("000000")
+      msg.source_san.should eql("9013725")
+      msg.source_suffix.should eql("")
+      msg.source_name.should eql("Rainbow Book")
+      msg.date.should eql("061112")
+      msg.filename.should eql("INTERNET.BSC")
+      msg.format_version.should eql("F03")
+      msg.destination_san.should eql("9021000")
+      msg.destination_suffix.should eql("")
+      msg.po_number.should eql("14976")
+      msg.cancellation_date.should eql("000000")
+      msg.backorder.should be_true
+      msg.do_not_exceed_action.should eql("")
+      msg.do_not_exceed_amount.should eql("0000000")
+      msg.invoice_copies.should eql("01")
+      msg.special_instructions.should be_false
+      msg.do_not_ship_before.should eql("000000")
+    end
   end
 
   specify "Should raise an appropriate exception when an invalid file is loaded" do
-    lambda { msg = Bisac::PO.parse_file(@invalid_file_no_header) }.should raise_error(RBook::InvalidFileError)
-    lambda { msg = Bisac::PO.parse_file(@invalid_file_no_footer) }.should raise_error(RBook::InvalidFileError)
-    lambda { msg = Bisac::PO.parse_file(@invalid_file_onix) }.should raise_error(RBook::InvalidFileError)
+    lambda { msg = Bisac::PO.parse_file(@invalid_file_no_header) }.should raise_error(Bisac::InvalidFileError)
+    lambda { msg = Bisac::PO.parse_file(@invalid_file_no_footer) }.should raise_error(Bisac::InvalidFileError)
+    lambda { msg = Bisac::PO.parse_file(@invalid_file_onix) }.should raise_error(Bisac::InvalidFileError)
   end
 end
