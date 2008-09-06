@@ -1,7 +1,7 @@
 module Bisac
 
   # Class to represent a single product line in a Bisac File. See
-  # RBook::Bisac for basic usage instructions.
+  # Bisac::Message for basic usage instructions.
   class Product
 
     attr_reader :isbn, :title, :author, :price, :pubdate, :publisher

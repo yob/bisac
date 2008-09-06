@@ -1,6 +1,23 @@
 module Bisac
 
   # Represents a single BISAC purchase order acknowledgement
+  # 
+  # = Generating
+  #
+  # It's currently not possible to generate a POA with this class. All it needs
+  # is a to_s method though, much like Bisac::PO. Patches welcome.
+  #
+  # = Reading
+  #
+  # Each POA file can contain multiple POA's, so use pasrse_file() to iterate
+  # over them all.
+  #
+  #   Bisac::POA.parse_file("filename.bsc") do |msg|
+  #     puts msg.source_san
+  #     puts msg.source_name
+  #     puts msg.items.size
+  #     ...
+  #   end
   class POA
 
     # file header attributes

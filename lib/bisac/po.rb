@@ -1,6 +1,30 @@
 module Bisac
 
-  # Represents a single BISAC purchase order
+  # Represents a single BISAC purchase order.
+  #
+  # = Generating
+  #
+  #   po = Bisac::PO.new
+  #   po.source_san = "1111111"
+  #   po.source_name = "James"
+  #   ...
+  #   item = Bisac::POLineItem.new
+  #   item.isbn = "0385519869"
+  #   item.qty = 2
+  #   po.items << item
+  #   puts po.to_s
+  #
+  # = Reading
+  #
+  # Each PO file can contain multiple PO's, so use pasrse_file() to iterate
+  # over them all.
+  #
+  #   Bisac::PO.parse_file("filename.bsc") do |msg|
+  #     puts msg.source_san
+  #     puts msg.source_name
+  #     puts msg.items.size
+  #     ...
+  #   end
   class PO
 
     attr_accessor :source_san, :source_suffix, :source_name

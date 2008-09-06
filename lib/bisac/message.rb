@@ -1,6 +1,22 @@
 module Bisac
 
-  # Represents a single BISAC product metadata file
+  # Represents a single BISAC product metadata file. Note that the BISAC metadata
+  # file format is now quite dated, and should be avoided where possible, as it
+  # doesn't support the ISBN13 standard.
+  #
+  # = Generating
+  #
+  #   msg = Bisac::Message.new("Company Name", "1111111", "080906", 1)
+  #   msg << Bisac:Product.new("0385519869")
+  #   msg << Bisac:Product.new("014044565X")
+  #   msg.write("filename.bsc")
+  #
+  # = Reading
+  #
+  #   msg = Bisac::Message.load("filename.bsc")
+  #   puts msg.company
+  #   puts msg.san
+  #   puts msg.products.size
   class Message
 
     attr_accessor :company, :san, :batch, :code, :products

@@ -49,7 +49,7 @@ end
 # Genereate the RDoc documentation
 desc "Create documentation"
 Rake::RDocTask.new("doc") do |rdoc|
-  rdoc.title = "RBook"
+  rdoc.title = "BISAC"
   rdoc.rdoc_dir = (ENV['CC_BUILD_ARTIFACTS'] || 'doc') + '/rdoc'
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('COPYING')
