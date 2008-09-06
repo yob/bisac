@@ -7,10 +7,11 @@ module Bisac
   class POLineItem
 
     attr_accessor :sequence_number, :po_number, :line_item_number
-    attr_accessor :isbn, :qty, :catalogue_code, :price 
+    attr_accessor :qty, :catalogue_code, :price
     attr_accessor :author, :title
+    attr_reader :isbn
 
-    # returns a new RBook::Bisac::POLineItem object using the data passed in as a string
+    # returns a new Bisac::POLineItem object using the data passed in as a string
     # refer to the bisac spec for the expected format of the string
     def self.load_from_string(data)
       raise ArgumentError, 'data must be a string' unless data.kind_of? String
@@ -34,6 +35,29 @@ module Bisac
       return item
     end
 
+    def isbn=(val)
+      if RBook::ISBN.valid_isbn13?(val)
+        @isbn = val
+      elsif RBook::ISBN.valid_isbn10?(val)
+        @isbn = RBook::ISBN.convert_to_isbn13(val)
+      else
+        @isbn = val
+      end
+    end
+
+    # is the isbn for this product valid?
+    def isbn?
+      RBook::ISBN.valid_isbn13?(@isbn || "")
+    end
+
+    def isbn10
+      if isbn?
+        RBook::ISBN.convert_to_isbn10(@isbn)
+      else
+        @isbn
+      end
+    end
+
     def to_s
       lines = ["","",""]
       lines[0] << "40"
@@ -43,9 +67,16 @@ module Bisac
       lines[0] << " " # TODO
       lines[0] << "Y" # TODO
       lines[0] << @line_item_number.to_s.rjust(10,"0")
-      lines[0] << pad_trunc(@isbn, 10)
+      lines[0] << pad_trunc(isbn10, 10)
       lines[0] << @qty.to_s.rjust(5, "0")
       lines[0] << "00000000000000000000000000000" # TODO
+      lines[0] << "     "
+
+      # if we're ordering a valid ISBN, append a non-standard
+      # ISBN13 to the line
+      if isbn?
+        lines[0] << @isbn
+      end
 
       lines << ""
       lines[1] << "41"
