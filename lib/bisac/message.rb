@@ -1,7 +1,6 @@
 module Bisac
 
-  # Represents a single Bisac File. See Bisac for a basic
-  # usage example.
+  # Represents a single BISAC product metadata file
   class Message
 
     attr_accessor :company, :san, :batch, :code, :products

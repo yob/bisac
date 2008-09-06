@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/po_line_item'
-
 module Bisac
 
   # Represents a single BISAC purchase order
@@ -24,7 +22,7 @@ module Bisac
       @backorder = true
     end
 
-    # reads a bisac text file into memory. input should be a string 
+    # reads a bisac text file into memory. input should be a string
     # that specifies the file path
     def self.load_from_file(input)
       $stderr.puts "WARNING: RBook::Bisac::PO.load_from_file is deprecated. It only returns the first PO in the file. use parse_file instead."
@@ -38,7 +36,7 @@ module Bisac
       raise ArgumentError, 'Invalid file' unless File.file?(input)
       data = []
       File.open(input, "r") do |f|
-        f.each_line do |l| 
+        f.each_line do |l|
           data << l
 
           # yield each message found in the file. A line starting with
@@ -59,7 +57,7 @@ module Bisac
     def self.parse_string(input, &block)
       raise ArgumentError, 'no data provided' if input.nil?
       data = []
-      input.split("\n").each do |l| 
+      input.split("\n").each do |l|
         data << l
 
         # yield each message found in the string. A line starting with
@@ -88,25 +86,26 @@ module Bisac
     end
 
     def to_s
+      lines = []
 
-      # first header
-      lines = [""]
-      lines.last << "00" # line type
-      lines.last << "00000"  # line counter
-      lines.last << pad_trunc(@source_san, 7)
-      lines.last << pad_trunc(@source_suffix, 5)
-      lines.last << pad_trunc(@source_name, 13)
-      lines.last << pad_trunc(@date, 6)
-      lines.last << pad_trunc(@filename, 22)
-      lines.last << pad_trunc(@format_version, 3)
-      lines.last << pad_trunc(@destination_san, 7)
-      lines.last << pad_trunc(@destination_suffix, 5)
-      lines.last << pad_trunc("", 5) # something
+      # file header
+      line = " " * 80
+      line[0,2]   = "00" # line type
+      line[2,5]   = "00001"  # line counter
+      line[7,7]   = pad_trunc(@source_san, 7)
+      line[14,5]  = pad_trunc(@source_suffix, 5)
+      line[19,13] = pad_trunc(@source_name, 13)
+      line[32,6]  = pad_trunc(@date, 6)
+      line[38,22] = pad_trunc(@filename, 22)
+      line[60,3]  = pad_trunc(@format_version, 3)
+      line[63,7]  = pad_trunc(@destination_san, 7)
+      line[70,5]  = pad_trunc(@destination_suffix, 5)
+      lines << line
 
-      # second header
+      # po header
       lines << ""
       lines.last << "10"
-      lines.last << "00001"  # line counter
+      lines.last << "00002"  # line counter
       lines.last << " "
       lines.last << @po_number.to_s.ljust(11, " ")
       lines.last << " " # TODO
@@ -124,18 +123,37 @@ module Bisac
       lines.last << pad_trunc("",5) # TODO
       lines.last << pad_trunc(@do_not_ship_before,6)
 
-      @items.each do |item|
-        lines += item.to_s.split("\n")
+      sequence = 3
+      @items.each_with_index do |item, idx|
+        item.line_item_number = idx + 1
+        item.sequence_number  = sequence
+        lines    += item.to_s.split("\n")
+        sequence += 3
       end
 
-      lines << ""
-      lines.last << "90"
-      lines.last << lines.size.to_s.rjust(5,"0")  # line counter
-      lines.last << " "
-      lines.last << @po_number.to_s.ljust(11, " ")
-      lines.last << " 00110" # TODO
-      lines.last << @items.size.to_s.rjust(10,"0")
-      lines.last << total_qty.to_s.rjust(10,"0")
+      # PO control
+      line = " " * 80
+      line[0,2]   = "50"
+      line[2,5]   = (lines.size + 1).to_s.rjust(5,"0")  # line counter
+      line[8,12]  = @po_number.to_s.ljust(13, " ")
+      line[20,5]  = "00001" # number of POs in file
+      line[25,10] = @items.size.to_s.rjust(10,"0")
+      line[35,10] = total_qty.to_s.rjust(10,"0")
+      lines << line
+
+      # file trailer
+      line = " " * 80
+      line[0,2]   = "90"
+      line[2,5]   = (lines.size+1).to_s.rjust(5,"0")  # line counter
+      line[7,20]  = @items.size.to_s.rjust(13,"0")
+      line[20,5]  = "00001" # total '10' (PO) records
+      line[25,10] = total_qty.to_s.rjust(10,"0")
+      line[35,5]  = "00001" # number of '00'-'09' records
+      line[40,5]  = "00001" # number of '10'-'19' records
+      line[55,5]  = (@items.size * 3).to_s.rjust(5,"0") # number of '40'-'49' records
+      line[60,5]  = "00000" # number of '50'-'59' records
+      line[45,5]  = "00000" # number of '60'-'69' records
+      lines << line
 
       lines.join("\n")
     end
