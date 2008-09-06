@@ -1,0 +1,514 @@
+
+<HTML>
+  <HEAD>
+    <TITLE id="title">Fixed BISAC Purchase Order</TITLE>
+    <LINK href="styles.css" type="text/css" rel="stylesheet">
+  </HEAD>
+  <body bottomMargin="5" bgColor="#ffffff" leftMargin="5" topMargin="5" rightMargin="5">
+
+  <h3 align="center" style="text-align:center">Fixed BISAC Purchase Order Format
+  for Anchor Distributors</h3>
+  <p class="MsoNormal">&nbsp;<b>Header Segments</b></p>
+  <table border="1" cellpadding="2" width="500" cellspacing="0">
+    <tr>
+      <td>00</td>
+      <td>File Header Record</td>
+    </tr>
+    <tr>
+      <td>10<span style="mso-tab-count:1"></span></td>
+      <td>PO Header Record</td>
+    </tr>
+  </table>
+  <p><b>Detail Segments</b></p>
+  <table border="1" cellpadding="2" cellspacing="0" width="500">
+    <tr>
+      <td>40</td>
+      <td><span style="mso-tab-count:1"></span>Line Item Record</td>
+    </tr>
+  </table>
+  <p><b>Summary Segments</b></p>
+  <table border="1" cellpadding="2" width="500" cellspacing="0">
+    <tr>
+      <td>50</td>
+      <td>PO Control Record</td>
+    </tr>
+    <tr>
+      <td>90</td>
+      <td><span style="mso-tab-count:1"></span>File Trailer Record</td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+  <hr>
+  <p class="MsoNormal"><b>00<span style="mso-tab-count: 1"> </span>File Header
+  Record<o:p>
+  </o:p>
+  </b></p>
+  <table border="1" cellpadding="2" width="500" cellspacing="0">
+    <tr>
+      <td width="54"><i><u>Element</u></i></td>
+      <td width="162"><i><u>Name</u></i></td>
+      <td width="96"><i><u>Character Position</u></i></td>
+      <td width="162"><i><u>Value</u></i></td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162"><span style="mso-tab-count:1"></span>Record Tag</td>
+      <td width="96">1-2<span style="mso-tab-count:1"></span></td>
+      <td width="162">00</td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">Record Sequence Number</td>
+      <td width="96">3-7<span style="mso-tab-count:
+1"></span></td>
+      <td width="162">Sequential line number counter</td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162"><span style="mso-tab-count:1"></span>File Source SAN</td>
+      <td width="96">8-14</td>
+      <td width="162">Orderer SAN</td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">File Source Suffix</td>
+      <td width="96">15-19</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">File Source Name</td>
+      <td width="96"><span style="mso-tab-count:1"></span>20-32<span style="mso-tab-count:1"></span></td>
+      <td width="162"></td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">Date of Transmission<span style="mso-tab-count:1"></span></td>
+      <td width="96"><span style="mso-tab-count:1"></span>33-38</td>
+      <td width="162"><span style="mso-tab-count:1"></span>YYMMDD</td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">Name of File</td>
+      <td width="96">39-60</td>
+      <td width="162"></td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">Format Version Code</td>
+      <td width="96">61-63</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">File Destination SAN</td>
+      <td width="96">64-70<span style="mso-tab-count:1"></span></td>
+      <td width="162"><span style="mso-tab-count:1"></span>2032104</td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">File Destination Suffix<span style="mso-tab-count:2"></span></td>
+      <td width="96">71-75<span style="mso-tab-count:
+1"></span></td>
+      <td width="162">Blank</td>
+    </tr>
+    <tr>
+      <td width="54"></td>
+      <td width="162">Filler</td>
+      <td width="96">76-80</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+  </table>
+  <p><b>10<span style="mso-tab-count: 1"> </span>PO Header Record</b></p>
+  <table border="1" cellpadding="2" width="500" cellspacing="0">
+    <tr>
+      <td><i><u>Element</u></i></td>
+      <td><i><u>Name</u></i></td>
+      <td><i><u>Character Position</u></i></td>
+      <td><i><u>Value</u></i></td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Record Tag</td>
+      <td>1-2<span style="mso-tab-count:1"></span></td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Record Sequence Number</td>
+      <td>3-7<span style="mso-tab-count:
+1"></span></td>
+      <td>Sequential line number counter</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Purchase Order Number</td>
+      <td>8-20<span style="mso-tab-count:1"></span></td>
+      <td>Unique number supplied by orderer</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Customer SAN</td>
+      <td>21-27</td>
+      <td>Orderer SAN</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Customer Suffix</td>
+      <td>28-32</td>
+      <td><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Vendor SAN</td>
+      <td>33-39</td>
+      <td><span style="mso-tab-count:1"></span>2032104</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Vendor Suffix</td>
+      <td>40-44</td>
+      <td><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Date of Order</td>
+      <td>45-50</td>
+      <td><span style="mso-tab-count:1"></span>YYMMDD</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Cancellation Date<span style="mso-tab-count:1"></span></td>
+      <td>51-56</td>
+      <td>YYMMDD</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Backorder Code</td>
+      <td>57</td>
+      <td>Y = Backorder when out of stock</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Do Not Exceed Action Code</td>
+      <td>58</td>
+      <td>Blank</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td><span style="mso-tab-count:1"></span>Do Not Exceed Amount<span style="mso-tab-count:1"></span></td>
+      <td>59-65<span style="mso-tab-count:1"></span></td>
+      <td><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>Invoice Copies<span style="mso-tab-count:2"></span></td>
+      <td>66-67<span style="mso-tab-count:1"></span></td>
+      <td><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>Special Instruction Code<span style="mso-tab-count:1"></span></td>
+      <td>68</td>
+      <td>
+        <p class="MsoNormal"><span style="mso-tab-count:1"></span>N = no special
+        instructions record<br>
+        Y = special instructions record (20)</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>Cataloging Services Code</td>
+      <td>69</td>
+      <td>0 = None</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>Customer Ship-To Record Count</td>
+      <td>70</td>
+      <td>Blank</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td><span style="mso-tab-count:1"></span>Customer Bill-To-Record Count</td>
+      <td>71</td>
+      <td>Blank</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td><span style="mso-tab-count:1"></span>ISBN Code</td>
+      <td>72</td>
+      <td>2 = all ISBN’s are on the order</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>Substitution Code</td>
+      <td>73</td>
+      <td><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td><span style="mso-tab-count:1"></span>Do Not Ship Before Date</td>
+      <td>74-79</td>
+      <td><span style="mso-tab-count:1"></span>YYMMDD</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td><span style="mso-tab-count:1"></span>Filler</td>
+      <td>80<span style="mso-tab-count:1"></span></td>
+      <td><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+  </table>
+  <p><b>40 Line Item Record</b></p>
+  <table border="1" cellpadding="2" width="500" cellspacing="0">
+    <tr>
+      <td width="54"><i><u>Element</u></i></td>
+      <td width="162"><i><u>Name</u></i></td>
+      <td width="85"><i><u>Character Position</u></i></td>
+      <td width="173"><i><u>Value</u></i></td>
+    </tr>
+    <tr>
+      <td width="54">1</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Record Tag<span style="mso-tab-count:2"></span></td>
+      <td width="85">1-2</td>
+      <td width="173">40</td>
+    </tr>
+    <tr>
+      <td width="54">2</td>
+      <td width="162">Record Sequence Number<span style="mso-tab-count:2"></span></td>
+      <td width="85">3-7</td>
+      <td width="173">Sequential line number counter</td>
+    </tr>
+    <tr>
+      <td width="54">3</td>
+      <td width="162">PO Number</td>
+      <td width="85">8-20<span style="mso-tab-count:1"></span></td>
+      <td width="173">Unique number supplied by orderer</td>
+    </tr>
+    <tr>
+      <td width="54">4</td>
+      <td width="162">Appended Record Code</td>
+      <td width="85">21</td>
+      <td width="173">Blank</td>
+    </tr>
+    <tr>
+      <td width="54">5</td>
+      <td width="162">Line Item Number</td>
+      <td width="85">22-31<span style="mso-tab-count:1"></span></td>
+      <td width="173">Line number supplied by orderer</td>
+    </tr>
+    <tr>
+      <td width="54">6</td>
+      <td width="162">ISBN</td>
+      <td width="85">32-41<span style="mso-tab-count:1"></span></td>
+      <td width="173">Zero Filled</td>
+    </tr>
+    <tr>
+      <td width="54">7</td>
+      <td width="162">Order Quantity</td>
+      <td width="85">42-46</td>
+      <td width="173">Zero Filled</td>
+    </tr>
+    <tr>
+      <td width="54">8</td>
+      <td width="162">Cataloging Services Code</td>
+      <td width="85">47<span style="mso-tab-count:1"></span></td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">9</td>
+      <td width="162">Price<span style="mso-tab-count:1"></span></td>
+      <td width="85">48-53</td>
+      <td width="173">Implied Decimal, Zero Filled</td>
+    </tr>
+    <tr>
+      <td width="54">10</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Volumes in Set<span style="mso-tab-count:2"></span></td>
+      <td width="85">54-55</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">11</td>
+      <td width="162">LC Number in Prefix</td>
+      <td width="85">56-58</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">12</td>
+      <td width="162">LC Number<span style="mso-tab-count:2"></span></td>
+      <td width="85">59-66<span style="mso-tab-count:1"></span></td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">13</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Discount Percent</td>
+      <td width="85">67-71</td>
+      <td width="173">3 Implied Decimal, Zero Filled</td>
+    </tr>
+    <tr>
+      <td width="54">14</td>
+      <td width="162">Substitution Code<span style="mso-tab-count:1"></span></td>
+      <td width="85">72</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">15</td>
+      <td width="162">Cataloging Quantity</td>
+      <td width="85">73-75</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">16</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Back-Order Code</td>
+      <td width="85">76</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">17</td>
+      <td width="162">Filler</td>
+      <td width="85">77-80</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+  </table>
+  <p><b>50 PO Control Record</b></p>
+  <table border="1" cellpadding="2" width="500" cellspacing="0">
+    <tr>
+      <td width="54"><i><u>Element</u></i></td>
+      <td width="168"><i><u>Name</u></i></td>
+      <td width="79"><i><u>Character Position</u></i></td>
+      <td width="173"><i><u>Value</u></i></td>
+    </tr>
+    <tr>
+      <td width="54">1</td>
+      <td width="168">Record Tag</td>
+      <td width="79">1-2</td>
+      <td width="173">50</td>
+    </tr>
+    <tr>
+      <td width="54">2</td>
+      <td width="168">Record Sequence Number</td>
+      <td width="79">3-7<span style="mso-tab-count:
+1"></span></td>
+      <td width="173">Sequential line number counter</td>
+    </tr>
+    <tr>
+      <td width="54">3</td>
+      <td width="168">PO Number<span style="mso-tab-count:2"></span></td>
+      <td width="79">8-20</td>
+      <td width="173">Unique number supplied by orderer</td>
+    </tr>
+    <tr>
+      <td width="54">4</td>
+      <td width="168">PO Record Count<span style="mso-tab-count:1"></span></td>
+      <td width="79">21-25</td>
+      <td width="173">Number of 10 Records</td>
+    </tr>
+    <tr>
+      <td width="54">5</td>
+      <td width="168">Total Number of Line Items</td>
+      <td width="79">26-35</td>
+      <td width="173">Number of 40 Records</td>
+    </tr>
+    <tr>
+      <td width="54">6</td>
+      <td width="168">Total Units Ordered</td>
+      <td width="79">36-45</td>
+      <td width="173">Total order quantity</td>
+    </tr>
+    <tr>
+      <td width="54">7</td>
+      <td width="168"><span style="mso-tab-count:1"></span>Filler</td>
+      <td width="79">46-80</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+  </table>
+  <p><b>90 File Trailer Record</b></p>
+  <table border="1" cellpadding="2" width="500" cellspacing="0">
+    <tr>
+      <td width="54"><i><u>Element</u></i></td>
+      <td width="162"><i><u>Name</u></i></td>
+      <td width="85"><i><u>Character Position</u></i></td>
+      <td width="173"><i><u>Value</u></i></td>
+    </tr>
+    <tr>
+      <td width="54">1</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Record Tag<span style="mso-tab-count:2"></span></td>
+      <td width="85">1-2<span style="mso-tab-count:1"></span></td>
+      <td width="173"><span style="mso-tab-count:1"></span>90</td>
+    </tr>
+    <tr>
+      <td width="54">2</td>
+      <td width="162">Record Sequence Number</td>
+      <td width="85">3-7<span style="mso-tab-count:
+1"></span></td>
+      <td width="173">Sequential line number counter</td>
+    </tr>
+    <tr>
+      <td width="54">3</td>
+      <td width="162">Total Line Items in File</td>
+      <td width="85">8-20</td>
+      <td width="173">Number of 40 Records</td>
+    </tr>
+    <tr>
+      <td width="54">4</td>
+      <td width="162">Total PO Records<span style="mso-tab-count:2"></span></td>
+      <td width="85">21-25</td>
+      <td width="173">Number of 10 Records</td>
+    </tr>
+    <tr>
+      <td width="54">5</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Total Units Ordered<span style="mso-tab-count:1"></span></td>
+      <td width="85">26-36</td>
+      <td width="173">Total ordered quantity</td>
+    </tr>
+    <tr>
+      <td width="54">6</td>
+      <td width="162">Record Tag Count 01-09</td>
+      <td width="85">36-40</td>
+      <td width="173">Number of 00 Records</td>
+    </tr>
+    <tr>
+      <td width="54">7</td>
+      <td width="162">Record Tag Count 10-19</td>
+      <td width="85">41-45</td>
+      <td width="173">Number of 10 Records</td>
+    </tr>
+    <tr>
+      <td width="54">8</td>
+      <td width="162">Record Tag Count 20-29</td>
+      <td width="85">46-50<span style="mso-tab-count:1"></span></td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">9</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Record Tag Count 30-39<span style="mso-tab-count:1"></span></td>
+      <td width="85">51-55</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+    <tr>
+      <td width="54">10</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Record Tag Count 40-49<span style="mso-tab-count:1"></span></td>
+      <td width="85">56-60<span style="mso-tab-count:1"></span></td>
+      <td width="173"><span style="mso-tab-count:1"></span>Number of 40 Records</td>
+    </tr>
+    <tr>
+      <td width="54">11</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Record Tag Count 50-59</td>
+      <td width="85">61-65</td>
+      <td width="173">Number of 50 Records</td>
+    </tr>
+    <tr>
+      <td width="54">12</td>
+      <td width="162">Record Tag Count 60-90<span style="mso-tab-count:1"></span></td>
+      <td width="85">66-70<span style="mso-tab-count:1"></span></td>
+      <td width="173">Number of 90 Records</td>
+    </tr>
+    <tr>
+      <td width="54">13</td>
+      <td width="162"><span style="mso-tab-count:1"></span>Filler</td>
+      <td width="85">71-80</td>
+      <td width="173"><span style="mso-tab-count:1"></span>Blank</td>
+    </tr>
+  </table>
+
+  </body>
+</HTML>
