@@ -1,0 +1,18 @@
+The Book Industry Standards and Communications (BISAC) Group is a US body that
+among other things, has defined a set of specifications for electronic data
+exchange within the book industry.
+
+This set of classes are just convenience wrappers around some of those formats,
+designed to make reading and writing them a little less painful.
+
+At this stage I've implemented support for 3 message types. See their classes for
+specific documentation.
+
+- Bisac::Message - Title metadata message
+- Bisac::PO      - Purchase Order
+- Bisac::POA     - Purchase Order Acknowledgement
+
+= Links
+
+- http://www.bisg.org/bisac/
+- http://www.anchordistributors.com/EDIInfo.aspx
