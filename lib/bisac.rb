@@ -5,6 +5,8 @@ require 'bisac/message'
 require 'bisac/product'
 require 'bisac/po'
 require 'bisac/po_line_item'
+require 'bisac/poa'
+require 'bisac/poa_line_item'
 
 # require rubygems
 require 'rbook/isbn'

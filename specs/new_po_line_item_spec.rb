@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
 
-require 'rbook/bisac'
+require 'bisac'
 
 context "A new bisac purchase order line item object" do
 
