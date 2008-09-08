@@ -65,14 +65,35 @@ module Bisac
 
     def status_text
       case self.status
-      when 1  then "Title Shipped As Ordered"
+      when 1  then "Accepted: Title Shipped As Ordered"
+      when 2  then "Accepted: Substitute Title Shipped As Ordered"
       when 3  then "Cancelled: Future Publication"
+      when 4  then "Cancelled: Future Publication" # date available
+      when 5  then "Backordered: Future Publication"
       when 6  then "Cancelled: Out of Stock"
       when 7  then "Backordered: Out of Stock"
+      when 8  then "Cancelled: Out of Print"
       when 9  then "Partial Ship: Cancel Rest"
       when 10 then "Partial Ship: Backorder Rest"
+      when 11 then "Cancelled: HB Out of Print, PB Available"
+      when 12 then "Cancelled: PB Out of Print, HB Available"
+      when 13 then "Cancelled: Out of Print, Alt. Edition Available"
+      when 14 then "Backordered: Subtitute Title on BO."
+      when 15 then "Cancelled: No Rights"
+      when 16 then "Cancelled: Not our Publication"
+      when 17 then "Accepted: Free Book"
+      when 18 then "Cancelled: BO Expired"
+      when 19 then "Cancelled: Subscription Only"
       when 20 then "Cancelled: Not Carried"
+      when 21 then "Cancelled: Not Carried"
+      when 22 then "Cancelled: Import Title"
+      when 23 then "Cancelled: Not Available for Wholesale"
+      when 24 then "Cancelled: Kits Not Available"
+      when 25 then "Cancelled: Not Available"
+      when 26 then "Cancelled: New Price From Publisher"
+      when 27 then "Cancelled: ISBN Not Recognised"
       when 28 then "Cancelled: Out of Print"
+      when 29 then "Backordered: At Customers Request"
       else
         "UNKNOWN"
       end
