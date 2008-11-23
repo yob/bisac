@@ -1,6 +1,7 @@
 The Book Industry Standards and Communications (BISAC) Group is a US body that
 among other things, has defined a set of plain text data formats for electronic
-data exchange within the book industry.
+data exchange within the book industry. These formats are now deprecated, but
+are still in use in some place (including segments of the Australian market).
 
 This set of classes are just convenience wrappers around some of those formats,
 designed to make reading and writing them just a little less painful.
