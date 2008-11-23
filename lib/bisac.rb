@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 # load other files from within this lib
+require 'bisac/utils'
 require 'bisac/message'
 require 'bisac/product'
 require 'bisac/po'

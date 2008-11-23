@@ -4,6 +4,7 @@ module Bisac
 
   # represents a single line on the purchase order ack
   class POALineItem
+    include Bisac::Utils
 
     attr_accessor :sequence_number, :supplier_poa_number
     attr_accessor :line_item_number, :order_qty, :unit_price, :nett_price

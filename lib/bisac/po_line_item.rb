@@ -5,6 +5,7 @@ module Bisac
   # represents a single line on the purchase order. Has attributes like
   # price, qty and description
   class POLineItem
+    include Bisac::Utils
 
     attr_accessor :sequence_number, :po_number, :line_item_number
     attr_accessor :qty, :catalogue_code, :price
@@ -97,19 +98,5 @@ module Bisac
       lines.join("\n")
     end
 
-    private
-
-    def yes_no(bool)
-      bool ? "Y" : "N"
-    end
-
-    def pad_trunc(str, len, pad = " ")
-      str = str.to_s
-      if str.size > len
-        str[0,len]
-      else
-        str.ljust(len, pad)
-      end
-    end
   end
 end

@@ -26,6 +26,7 @@ module Bisac
   #     ...
   #   end
   class PO
+    include Bisac::Utils
 
     attr_accessor :source_san, :source_suffix, :source_name
     attr_accessor :date, :filename, :format_version
@@ -183,19 +184,6 @@ module Bisac
     end
 
     private
-
-    def yes_no(bool)
-      bool ? "Y" : "N"
-    end
-
-    def pad_trunc(str, len, pad = " ")
-      str = str.to_s
-      if str.size > len
-        str[0,len]
-      else
-        str.ljust(len, pad)
-      end
-    end
 
     def self.build_message(data)
       raise Bisac::InvalidFileError, 'File appears to be too short' unless data.size >= 3

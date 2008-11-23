@@ -67,4 +67,10 @@ context "A BISAC POA object" do
   specify "Should raise an appropriate exception when an invalid file is loaded" do
     lambda { msg = Bisac::POA.parse_file(@invalid_file_onix) }.should raise_error(Bisac::InvalidFileError)
   end
+
+  specify "Should correctly convert into a string" do
+    msg = Bisac::POA.new
+    data = msg.to_s.split
+    data.size.should eql(3)
+  end
 end

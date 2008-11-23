@@ -27,10 +27,15 @@ context "A new bisac purchase order line item object" do
   end
 
   specify "Should prefer the ISBN13 over ISBN10 when available" do
-    item = Bisac::POLineItem.load_from_string(@valid_isbn13_row)
-    item.should be_a_kind_of(Bisac::POLineItem)
+    item = Bisac::POALineItem.load_from_string(@valid_isbn13_row)
+    item.should be_a_kind_of(Bisac::POALineItem)
 
     item.isbn.should eql("9780711226067")
+  end
+
+  specify "Should correctly convert into a string" do
+    item = Bisac::POALineItem.load_from_string(@valid_isbn13_row)
+    item.to_s.should eql(@valid_isbn13_row)
   end
 
 end

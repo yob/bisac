@@ -19,6 +19,7 @@ module Bisac
   #     ...
   #   end
   class POA
+    include Bisac::Utils
 
     # file header attributes
     attr_accessor :source_san, :source_suffix, :source_name
