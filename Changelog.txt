@@ -1,3 +1,6 @@
+v0.9 (24th October)
+- Added a working Bisac::POA#to_s
+
 v0.8.1 (8th September)
 - Completed the mapping of status codes to text
 
