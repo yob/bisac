@@ -177,7 +177,7 @@ module Bisac
       line[40,5]  = "00001" # number of '10'-'19' records
       line[55,5]  = (@items.size * 3).to_s.rjust(5,"0") # number of '40'-'49' records
       line[60,5]  = "00000" # number of '50'-'59' records
-      line[45,5]  = "00000" # number of '60'-'69' records
+      line[65,5]  = "00000" # number of '60'-'69' records
       lines << line
 
       lines.join("\n")

@@ -89,7 +89,7 @@ module Bisac
 
       # file header
       line = " " * 80
-      line[0,2]   = "00" # line type
+      line[0,2]   = "02" # line type
       line[2,5]   = "00001"  # line counter
       line[7,7]   = pad_trunc(@source_san, 7)
       line[14,5]  = pad_trunc(@source_suffix, 5)
@@ -99,59 +99,58 @@ module Bisac
       line[60,3]  = pad_trunc(@format_version, 3)
       line[63,7]  = pad_trunc(@destination_san, 7)
       line[70,5]  = pad_trunc(@destination_suffix, 5)
+      line[75,1]  = pad_trunc(@ack_type, 1)
       lines << line
 
       # po header
-      lines << ""
-      lines.last << "10"
-      lines.last << "00002"  # line counter
-      lines.last << " "
-      lines.last << @po_number.to_s.ljust(11, " ")
-      lines.last << " " # TODO
-      lines.last << pad_trunc(@source_san, 7)
-      lines.last << pad_trunc("",5) # TODO
-      lines.last << pad_trunc(@destination_san, 7)
-      lines.last << pad_trunc("",5) # TODO
-      lines.last << pad_trunc(@date, 6)
-      lines.last << pad_trunc(@cancellation_date,6)
-      lines.last << yes_no(@backorder)
-      lines.last << pad_trunc(@do_not_exceed_action,1)
-      lines.last << pad_trunc(@do_not_exceed_amount,7)
-      lines.last << pad_trunc(@invoice_copies,2)
-      lines.last << yes_no(@special_instructions)
-      lines.last << pad_trunc("",5) # TODO
-      lines.last << pad_trunc(@do_not_ship_before,6)
+      line = " " * 80
+      line[0,2]    = "11" # line type
+      line[2,5]    = "00002"  # line counter
+      line[7,13]   = pad_trunc(@supplier_poa_number, 13)
+      line[20,13]  = pad_trunc(@po_number, 13)
+      line[33,7]   = pad_trunc(@customer_san, 7)
+      line[40,5]   = pad_trunc(@customer_suffice, 5)
+      line[45,7]   = pad_trunc(@supplier_san, 7)
+      line[52,5]   = pad_trunc(@supplier_suffice, 5)
+      line[57,6]   = pad_trunc(@poa_date, 6)
+      line[63,3]   = pad_trunc(@currency, 3)
+      line[66,6]   = pad_trunc(@po_date, 6)
+      line[72,6]   = pad_trunc(@po_cancel_date, 6)
+      line[78,2]   = pad_trunc(@po_type, 2)
+      lines << line
 
       sequence = 3
       @items.each_with_index do |item, idx|
         item.line_item_number = idx + 1
         item.sequence_number  = sequence
         lines    += item.to_s.split("\n")
-        sequence += 3
+        sequence += 1
       end
 
-      # PO control
+      # POA control
       line = " " * 80
-      line[0,2]   = "50"
+      line[0,2]   = "59"
       line[2,5]   = (lines.size + 1).to_s.rjust(5,"0")  # line counter
-      line[8,12]  = @po_number.to_s.ljust(13, " ")
-      line[20,5]  = "00001" # number of POs in file
-      line[25,10] = @items.size.to_s.rjust(10,"0")
+      line[7,13]  = pad_trunc(@supplier_poa_number, 13)
+      line[20,5]  = "00001" # number of '11' records
+      line[25,10] = "0000000001" # number of POAs in file
       line[35,10] = total_qty.to_s.rjust(10,"0")
       lines << line
 
       # file trailer
       line = " " * 80
-      line[0,2]   = "90"
+      line[0,2]   = "91"
       line[2,5]   = (lines.size+1).to_s.rjust(5,"0")  # line counter
       line[7,20]  = @items.size.to_s.rjust(13,"0")
-      line[20,5]  = "00001" # total '10' (PO) records
+      line[20,5]  = "00001" # total '11' (POA) records
       line[25,10] = total_qty.to_s.rjust(10,"0")
       line[35,5]  = "00001" # number of '00'-'09' records
       line[40,5]  = "00001" # number of '10'-'19' records
-      line[55,5]  = (@items.size * 3).to_s.rjust(5,"0") # number of '40'-'49' records
+      line[45,5]  = "00000" # number of '20'-'29' records
+      line[50,5]  = "00000" # number of '30'-'39' records
+      line[55,5]  = (@items.size).to_s.rjust(5,"0") # number of '40'-'49' records
       line[60,5]  = "00000" # number of '50'-'59' records
-      line[45,5]  = "00000" # number of '60'-'69' records
+      line[65,5]  = "00000" # number of '60'-'69' records
       lines << line
 
       lines.join("\n")

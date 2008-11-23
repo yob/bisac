@@ -70,7 +70,7 @@ context "A BISAC POA object" do
 
   specify "Should correctly convert into a string" do
     msg = Bisac::POA.new
-    data = msg.to_s.split
-    data.size.should eql(3)
+    data = msg.to_s.split("\n")
+    data.size.should eql(4)
   end
 end
