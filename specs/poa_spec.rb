@@ -69,8 +69,12 @@ context "A BISAC POA object" do
   end
 
   specify "Should correctly convert into a string" do
-    msg = Bisac::POA.new
-    data = msg.to_s.split("\n")
-    data.size.should eql(4)
+    original = File.read(@valid_file).split("\n")
+    Bisac::POA.parse_file(@valid_file) do |msg|
+      msg.to_s.split("\n").size.should eql(57)
+      msg.to_s.split("\n").each_with_index do |line, idx|
+        line.strip.should eql(original[idx].strip)
+      end
+    end
   end
 end

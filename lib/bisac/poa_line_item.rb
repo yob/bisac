@@ -3,6 +3,7 @@ require 'bigdecimal'
 module Bisac
 
   # represents a single line on the purchase order ack
+  #
   class POALineItem
     include Bisac::Utils
 
@@ -62,6 +63,25 @@ module Bisac
       else
         @isbn
       end
+    end
+
+    def to_s
+      line = " " * 93
+      line[0,2]   = "40" # line type
+      line[2,5]   = @sequence_number.to_s.rjust(5,"0") # line counter
+      line[7,13]  = pad_trunc(@supplier_poa_number, 13)
+      line[20,10] = rpad_trunc(@line_item_number, 10, "0")
+      line[30,10] = pad_trunc(isbn10, 10)
+      line[40,5]  = rpad_trunc(@order_qty, 5, "0")
+      line[45,8]  = rpad_trunc(@unit_price.to_i, 8, "0")
+      line[53,9]  = rpad_trunc(@nett_price.to_i, 9, "0")
+      line[62,1]  = pad_trunc(@list_nett_indicator, 1)
+      line[63,1]  = rpad_trunc(@special_price, 1, "0")
+      line[64,5]  = rpad_trunc(@discount.to_i, 5, "0")
+      line[69,5]  = rpad_trunc(@shippable_qty, 5, "0")
+      line[74,2]  = rpad_trunc(@status, 2, "0")
+      line[80,13] = pad_trunc(isbn, 13)
+      line
     end
 
     def status_text

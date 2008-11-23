@@ -15,5 +15,14 @@ module Bisac
         str.ljust(len, pad)
       end
     end
+
+    def rpad_trunc(str, len, pad = " ")
+      str = str.to_s
+      if str.size > len
+        str[0,len]
+      else
+        str.rjust(len, pad)
+      end
+    end
   end
 end

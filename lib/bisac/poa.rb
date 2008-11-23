@@ -38,14 +38,9 @@ module Bisac
     # creates a new Bisac::POA object
     def initialize
       @items = []
-
-      # default values
-      @cancellation_date = "000000"
-      @do_not_ship_before = "000000"
-      @backorder = true
     end
 
-    # return all POs from a BISAC file
+    # return all POAs from a BISAC file
     def self.parse_file(input, &block)
       raise ArgumentError, 'no file provided' if input.nil?
       raise ArgumentError, 'Invalid file' unless File.file?(input)
@@ -54,7 +49,7 @@ module Bisac
       end
     end
 
-    # return all POs from a BISAC string
+    # return all POAs from a BISAC string
     def self.parse_string(input, &block)
       raise ArgumentError, 'no data provided' if input.nil?
       data = []
@@ -62,8 +57,8 @@ module Bisac
         data << l
 
         # yield each message found in the string. A line starting with
-        # 90 is the footer to a PO
-        if data.last[0,2] == "90"
+        # 91 is the footer to a POA
+        if data.last[0,2] == "91"
           msg = Bisac::POA.new
           msg.build_message(data)
           yield msg
@@ -80,10 +75,21 @@ module Bisac
       end
     end
 
-    def total_qty
-      @items.collect { |i| i.qty }.inject { |sum, x| sum ? sum+x : x}
+    # total number of units ordered by the customer
+    #
+    def total_order_qty
+      @items.collect { |i| i.order_qty }.inject { |sum, x| sum ? sum+x : x}
     end
 
+    # total number of units to ship
+    #
+    def total_shippable_qty
+      @items.collect { |i| i.shippable_qty }.inject { |sum, x| sum ? sum+x : x}
+    end
+
+    # convert this POA into a standards compliant string, ready for sending
+    # to customers.
+    #
     def to_s
       lines = []
 
@@ -119,12 +125,10 @@ module Bisac
       line[78,2]   = pad_trunc(@po_type, 2)
       lines << line
 
-      sequence = 3
       @items.each_with_index do |item, idx|
         item.line_item_number = idx + 1
-        item.sequence_number  = sequence
-        lines    += item.to_s.split("\n")
-        sequence += 1
+        item.sequence_number  = lines.size + 1
+        lines << item.to_s
       end
 
       # POA control
@@ -132,9 +136,9 @@ module Bisac
       line[0,2]   = "59"
       line[2,5]   = (lines.size + 1).to_s.rjust(5,"0")  # line counter
       line[7,13]  = pad_trunc(@supplier_poa_number, 13)
-      line[20,5]  = "00001" # number of '11' records
-      line[25,10] = "0000000001" # number of POAs in file
-      line[35,10] = total_qty.to_s.rjust(10,"0")
+      line[20,5]  = (lines.size).to_s.rjust(5,"0") # number of lines to this point
+      line[25,10] = (lines.size - 2).to_s.rjust(10,"0") # number of line items in file
+      line[35,10] = total_shippable_qty.to_s.rjust(10,"0")
       lines << line
 
       # file trailer
@@ -143,14 +147,14 @@ module Bisac
       line[2,5]   = (lines.size+1).to_s.rjust(5,"0")  # line counter
       line[7,20]  = @items.size.to_s.rjust(13,"0")
       line[20,5]  = "00001" # total '11' (POA) records
-      line[25,10] = total_qty.to_s.rjust(10,"0")
+      line[25,10] = total_shippable_qty.to_s.rjust(10,"0")
       line[35,5]  = "00001" # number of '00'-'09' records
       line[40,5]  = "00001" # number of '10'-'19' records
       line[45,5]  = "00000" # number of '20'-'29' records
       line[50,5]  = "00000" # number of '30'-'39' records
       line[55,5]  = (@items.size).to_s.rjust(5,"0") # number of '40'-'49' records
-      line[60,5]  = "00000" # number of '50'-'59' records
-      line[65,5]  = "00000" # number of '60'-'69' records
+      line[60,5]  = "00001" # number of '50'-'59' records
+      line[65,5]  = "00001" # number of '60'-'99' records
       lines << line
 
       lines.join("\n")
