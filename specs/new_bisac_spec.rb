@@ -4,7 +4,7 @@ require 'bisac'
 
 context "A new bisac object" do
 
-  setup do
+  before(:each) do
     @valid_item1 = Bisac::Product.new("0743285689")
     @valid_item1.title = "Enemy Combatant"
     @valid_item1.author = "Begg, Moazzam"

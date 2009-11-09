@@ -4,7 +4,7 @@ require 'bisac'
 
 context "The BISAC POA Class" do
 
-  setup do
+  before(:each) do
     @valid_file = File.dirname(__FILE__) + "/data/valid_poa.txt"
     @invalid_file_onix = File.dirname(__FILE__) + "/data/single_product.xml"
   end
@@ -26,7 +26,7 @@ end
 
 context "A BISAC POA object" do
 
-  setup do
+  before(:each) do
     @valid_file = File.dirname(__FILE__) + "/data/valid_poa.txt"
     @invalid_file_onix = File.dirname(__FILE__) + "/data/single_product.xml"
   end

@@ -4,7 +4,7 @@ require 'bisac'
 
 context "A new bisac purchase order object" do
 
-  setup do
+  before(:each) do
     @valid_file = File.dirname(__FILE__) + "/data/bisac_po.txt"
     @valid_multi_file = File.dirname(__FILE__) + "/data/bisac_multi_po.txt"
     @invalid_file_no_header = File.dirname(__FILE__) + "/data/bisac_po_no_header.txt"
