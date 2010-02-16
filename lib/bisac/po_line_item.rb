@@ -60,7 +60,7 @@ module Bisac
     end
 
     def to_s
-      lines = ["","",""]
+      lines = [""]
       lines[0] << "40"
       lines[0] << @sequence_number.to_s.rjust(5,"0")
       lines[0] << " "
@@ -79,21 +79,25 @@ module Bisac
         lines[0] << @isbn
       end
 
-      lines << ""
-      lines[1] << "41"
-      lines[1] << (@sequence_number + 1).to_s.rjust(5,"0")
-      lines[1] << " "
-      lines[1] << @po_number.to_s.ljust(11," ")
-      lines[1] << "    "
-      lines[1] << pad_trunc(@title, 30)
+      if @title && @title.to_s.size > 0
+        lines << ""
+        lines[1] << "41"
+        lines[1] << (@sequence_number + 1).to_s.rjust(5,"0")
+        lines[1] << " "
+        lines[1] << @po_number.to_s.ljust(11," ")
+        lines[1] << "    "
+        lines[1] << pad_trunc(@title, 30)
+      end
 
-      lines << ""
-      lines[2] << "42"
-      lines[2] << (@sequence_number + 2).to_s.rjust(5,"0")
-      lines[2] << " "
-      lines[2] << @po_number.to_s.ljust(11," ")
-      lines[2] << "                  " # TODO
-      lines[2] << pad_trunc(@author, 30)
+      if @author && @author.to_s.size > 0
+        lines << ""
+        lines[2] << "42"
+        lines[2] << (@sequence_number + 2).to_s.rjust(5,"0")
+        lines[2] << " "
+        lines[2] << @po_number.to_s.ljust(11," ")
+        lines[2] << "                  " # TODO
+        lines[2] << pad_trunc(@author, 30)
+      end
 
       lines.join("\n")
     end

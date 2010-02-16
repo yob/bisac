@@ -152,8 +152,9 @@ module Bisac
       @items.each_with_index do |item, idx|
         item.line_item_number = idx + 1
         item.sequence_number  = sequence
-        lines    += item.to_s.split("\n")
-        sequence += 3
+        new_lines = item.to_s.split("\n")
+        lines     += new_lines
+        sequence  += new_lines.size
       end
 
       # PO control

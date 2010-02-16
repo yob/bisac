@@ -49,4 +49,25 @@ context "A new bisac purchase order line item object" do
     lambda { Bisac::POLineItem.load_from_string(@invalid_row_nil) }.should raise_error(ArgumentError)
     lambda { Bisac::POLineItem.load_from_string(@invalid_row_num) }.should raise_error(ArgumentError)
   end
+
+  specify "Should render into a single line if no title or author are provided" do
+    item = Bisac::POLineItem.load_from_string(@valid_isbn13_row)
+
+    item.to_s.split("\n").size.should eql(1)
+  end
+
+  specify "Should render into two lines if a title is provided" do
+    item = Bisac::POLineItem.load_from_string(@valid_isbn13_row)
+    item.title = "test title"
+
+    item.to_s.split("\n").size.should eql(2)
+  end
+
+  specify "Should render into three lines if a title and author are provided" do
+    item = Bisac::POLineItem.load_from_string(@valid_isbn13_row)
+    item.title = "test title"
+    item.author = "test author"
+
+    item.to_s.split("\n").size.should eql(3)
+  end
 end
