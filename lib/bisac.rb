@@ -10,7 +10,8 @@ require 'bisac/poa'
 require 'bisac/poa_line_item'
 
 # require rubygems
-require 'rbook/isbn'
+require 'isbn10'
+require 'ean13'
 
 # Ruby module for reading and writing BISAC file formats.
 module Bisac

@@ -37,7 +37,7 @@ module Bisac
     attr_accessor :do_not_ship_before
     attr_accessor :items
 
-    # creates a new RBook::Bisac::PO object
+    # creates a new Bisac::PO object
     def initialize
       @items = []
 
@@ -50,7 +50,7 @@ module Bisac
     # reads a bisac text file into memory. input should be a string
     # that specifies the file path
     def self.load_from_file(input)
-      $stderr.puts "WARNING: RBook::Bisac::PO.load_from_file is deprecated. It only returns the first PO in the file. use parse_file instead."
+      $stderr.puts "WARNING: Bisac::PO.load_from_file is deprecated. It only returns the first PO in the file. use parse_file instead."
       self.parse_file(input) { |msg| return msg }
       return nil
     end
@@ -98,7 +98,7 @@ module Bisac
       yield self.build_message(data) if data.size > 0
     end
 
-    # creates a RBook::Bisac::PO object from a string. Input should
+    # creates a Bisac::PO object from a string. Input should
     # be a complete bisac file as a string
     def self.load_from_string(input)
       $stderr.puts "WARNING: Bisac::PO.load_from_string is deprecated. It only returns the first PO in the string. use parse_string instead."

@@ -1,7 +1,11 @@
-v0.9 (24th October)
+v0.9.1 (16th February 2010)
+- Bisac::POLineItem#to_s only includes title and author lines if title
+  and author have been provided
+
+v0.9 (24th October 2008)
 - Added a working Bisac::POA#to_s
 
-v0.8.1 (8th September)
+v0.8.1 (8th September 2008)
 - Completed the mapping of status codes to text
 
 v0.8.0 (6th September 2008)

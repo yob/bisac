@@ -37,10 +37,10 @@ module Bisac
     end
 
     def isbn=(val)
-      if RBook::ISBN.valid_isbn13?(val)
+      if EAN13.valid?(val)
         @isbn = val
-      elsif RBook::ISBN.valid_isbn10?(val)
-        @isbn = RBook::ISBN.convert_to_isbn13(val)
+      elsif ISBN10.valid?(val)
+        @isbn = ISBN10.new(val).to_ean
       else
         @isbn = val
       end
@@ -48,12 +48,12 @@ module Bisac
 
     # is the isbn for this product valid?
     def isbn?
-      RBook::ISBN.valid_isbn13?(@isbn || "")
+      EAN13.valid?(@isbn)
     end
 
     def isbn10
-      if isbn?
-        RBook::ISBN.convert_to_isbn10(@isbn)
+      if isbn? && @isbn[0,3] == "978"
+        ISBN10.complete(@isbn[3,9])
       else
         @isbn
       end
