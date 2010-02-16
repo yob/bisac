@@ -174,11 +174,11 @@ module Bisac
       line[7,20]  = @items.size.to_s.rjust(13,"0")
       line[20,5]  = "00001" # total '10' (PO) records
       line[25,10] = total_qty.to_s.rjust(10,"0")
-      line[35,5]  = "00001" # number of '00'-'09' records
-      line[40,5]  = "00001" # number of '10'-'19' records
-      line[55,5]  = (@items.size * 3).to_s.rjust(5,"0") # number of '40'-'49' records
-      line[60,5]  = "00000" # number of '50'-'59' records
-      line[65,5]  = "00000" # number of '60'-'69' records
+      line[35,5]  = lines.select { |l| l[0,1] == "0"}.size.to_s.rjust(5,"0") # number of '00'-'09' records
+      line[40,5]  = lines.select { |l| l[0,1] == "0"}.size.to_s.rjust(5,"0") # number of '10'-'19' records
+      line[55,5]  = lines.select { |l| l[0,1] == "4"}.size.to_s.rjust(5,"0") # number of '40'-'49' records
+      line[60,5]  = lines.select { |l| l[0,1] == "5"}.size.to_s.rjust(5,"0") # number of '50'-'59' records
+      line[65,5]  = lines.select { |l| l[0,1] == "6"}.size.to_s.rjust(5,"0") # number of '60'-'69' records
       lines << line
 
       lines.join("\n")
